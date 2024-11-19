@@ -2,7 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.ksp)
+    id ("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
     id("kotlin-kapt")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -17,6 +20,13 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    packaging {
+        resources {
+            // Exclude the duplicate files to resolve the conflict
+            excludes += "META-INF/DEPENDENCIES"
+        }
     }
 
     buildTypes {
@@ -69,5 +79,27 @@ dependencies {
     implementation(libs.ssp.android)
     implementation(libs.glide)
 
+    implementation (libs.androidcoreproject)
+
     annotationProcessor(libs.compiler)
+
+    implementation(libs.hilt.android)
+    ksp (libs.dagger.compiler)
+    ksp (libs.hilt.compiler)
+
+    annotationProcessor (libs.hilt.compiler.v252)
+
+    // For local unit tests
+    testImplementation (libs.hilt.android.testing)
+    kaptTest (libs.hilt.compiler.v252)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(platform(libs.firebase.bom.v3311))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.google.firebase.analytics)
+}
+
+kapt {
+    correctErrorTypes = true
 }

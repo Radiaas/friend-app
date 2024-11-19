@@ -6,23 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.colab.myfriend.adapter.FriendDao
 
-// Menggunakan entitas Friend dan versi 3 dari skema database
-@Database(entities = [Friend::class], version = 3)
+@Database(entities = [Friend::class], version = 3, exportSchema = false)
 abstract class MyDatabase : RoomDatabase() {
 
-    // Deklarasi abstract function untuk DAO (Data Access Object)
     abstract fun friendDao(): FriendDao
 
     companion object {
-        // Variabel INSTANCE digunakan untuk menyimpan instance dari MyDatabase
         @Volatile
         private var INSTANCE: MyDatabase? = null
 
-        // Fungsi untuk mendapatkan instance database
         fun getInstance(context: Context): MyDatabase {
+            // Use context.applicationContext here
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
+                    context.applicationContext, // Correct usage
                     MyDatabase::class.java,
                     "my_database"
                 )

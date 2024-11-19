@@ -1,25 +1,20 @@
 package com.colab.myfriend.adapter
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
 import com.colab.myfriend.database.Friend
+import com.crocodic.core.data.CoreDao
 import kotlinx.coroutines.flow.Flow
 
-// Interface Data Access Object (DAO) untuk entitas Friend
 @Dao
-interface FriendDao {
+interface FriendDao : CoreDao<Friend> {
 
-    @Query("SELECT * from friend WHERE id = :id")
+    @Query("SELECT * FROM friend WHERE id = :id")
     fun getItemById(id: Int): Flow<Friend?>
 
-    @Insert
-    suspend fun insert(friend: Friend)
+    @Query("SELECT * FROM friend WHERE name LIKE :keyword")
+    fun findFriend(keyword: String): List<Friend>
 
     @Query("SELECT * FROM friend")
     fun getAll(): Flow<List<Friend>>
-
-    @Update
-    suspend fun update(friend: Friend)
-
-    @Delete
-    suspend fun delete(friend: Friend)
 }
