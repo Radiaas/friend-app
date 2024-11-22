@@ -25,4 +25,24 @@ class FriendRepositoryImpl @Inject constructor(
             friendDao.findFriend("%$keyword%") // Panggil metode findFriend
         }
     }
+
+    override suspend fun insert(obj: Friend) {
+        friendDao.insert(obj)
+    }
+
+    override suspend fun insert(vararg obj: Friend) {
+        friendDao.insert(*obj)
+    }
+
+    override suspend fun insert(obj: List<Friend>) {
+        friendDao.insert(obj)
+    }
+
+    override suspend fun update(obj: Friend) {
+        friendDao.update(obj)
+    }
+
+    override suspend fun delete(obj: Friend) {
+        friendDao.delete(obj)
+    }
 }

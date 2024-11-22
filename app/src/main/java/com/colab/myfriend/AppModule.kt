@@ -1,8 +1,11 @@
 package com.colab.myfriend.di
 
 import android.content.Context
+import com.colab.myfriend.FriendRepository
+import com.colab.myfriend.FriendRepositoryImpl
 import com.colab.myfriend.adapter.FriendDao
 import com.colab.myfriend.database.MyDatabase
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +27,15 @@ object DatabaseModule {
     fun provideFriendDao(myDatabase: MyDatabase): FriendDao {
         return myDatabase.friendDao()
     }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindFriendRepository(
+        friendRepositoryImpl: FriendRepositoryImpl
+    ): FriendRepository
 }

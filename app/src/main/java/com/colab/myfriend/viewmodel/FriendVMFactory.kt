@@ -7,6 +7,9 @@ import com.colab.myfriend.database.MyDatabase
 
 class FriendVMFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return FriendViewModel(MyDatabase.getInstance(context).friendDao()) as T
+        return FriendViewModel(
+            MyDatabase.getInstance(context).friendDao(),
+            repository = TODO()
+        ) as T
     }
 }
