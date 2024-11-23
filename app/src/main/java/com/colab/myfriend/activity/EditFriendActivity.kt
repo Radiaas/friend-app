@@ -29,19 +29,22 @@ import java.io.FileOutputStream
 import java.io.IOException
 import androidx.exifinterface.media.ExifInterface
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import com.colab.myfriend.database.Friend
-import com.colab.myfriend.viewmodel.FriendVMFactory
 import com.colab.myfriend.viewmodel.FriendViewModel
 import com.colab.myfriend.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditFriendActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditFriendBinding
-    private lateinit var viewModel: FriendViewModel
     private lateinit var photoFile: File
     private var oldFriend: Friend? = null
     private var idFriend: Int = 0
     private var currentPhotoPath: String? = null
+    private val viewModel: FriendViewModel by viewModels()
+
 
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -120,8 +123,9 @@ class EditFriendActivity : AppCompatActivity() {
         }
 
         // Menyiapkan ViewModel
-        val viewModelFactory = FriendVMFactory(this)
-        viewModel = ViewModelProvider(this, viewModelFactory)[FriendViewModel::class.java]
+//        val viewModelFactory = FriendVMFactory(this)
+//        viewModel = ViewModelProvider(this, viewModelFactory)[FriendViewModel::class.java]
+
 
         // Jika idFriend tidak nol, ambil data teman
         if (idFriend != 0) {

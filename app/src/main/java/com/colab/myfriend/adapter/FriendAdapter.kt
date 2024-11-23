@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.colab.myfriend.R
 import com.colab.myfriend.database.Friend
@@ -41,8 +42,22 @@ class FriendAdapter(
     // Memperbarui data teman dalam adapter dan memberi tahu RecyclerView untuk melakukan refresh
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newFriends: List<Friend>) {
+        val diffCallback = object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int = friendList.size
+            override fun getNewListSize(): Int = newFriends.size
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return friendList[oldItemPosition].id == newFriends[newItemPosition].id
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return friendList[oldItemPosition] == newFriends[newItemPosition]
+            }
+        }
+
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         friendList = newFriends
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     // ViewHolder untuk item teman dalam RecyclerView

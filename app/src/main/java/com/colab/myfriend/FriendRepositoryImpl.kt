@@ -10,7 +10,7 @@ class FriendRepositoryImpl @Inject constructor(
     private val friendDao: FriendDao
 ) : FriendRepository {
 
-    override fun getAllFriends(): Flow<List<Friend>> {
+    override suspend fun getAllFriends(): Flow<List<Friend>> {
         return friendDao.getAll()
     }
 
@@ -18,13 +18,14 @@ class FriendRepositoryImpl @Inject constructor(
         return friendDao.getItemById(id)
     }
 
-    override suspend fun searchFriend(keyword: String?): List<Friend> {
+    override suspend fun searchFriend(keyword: String?): Flow<List<Friend>> {
         return if (keyword.isNullOrEmpty()) {
-            friendDao.getAll().firstOrNull() ?: emptyList()
+            friendDao.getAll()
         } else {
-            friendDao.findFriend("%$keyword%") // Panggil metode findFriend
+            friendDao.searchFriends("%$keyword%")
         }
     }
+
 
     override suspend fun insert(obj: Friend) {
         friendDao.insert(obj)

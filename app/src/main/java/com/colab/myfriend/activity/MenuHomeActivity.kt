@@ -12,17 +12,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.colab.myfriend.adapter.FriendAdapter
 import com.colab.myfriend.database.Friend
 import com.colab.myfriend.databinding.ActivityMenuHomeBinding
-import com.colab.myfriend.viewmodel.FriendVMFactory
 import com.colab.myfriend.viewmodel.FriendViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MenuHomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMenuHomeBinding
     private lateinit var adapter: FriendAdapter
-    private val viewModel: FriendViewModel by viewModels {
-        FriendVMFactory(applicationContext)
-    }
+    private val viewModel: FriendViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,13 +70,15 @@ class MenuHomeActivity : AppCompatActivity() {
     // Fungsi pencarian menggunakan ViewModel
     private fun searchFriends(keyword: String) {
         lifecycleScope.launch {
-            val results = viewModel.searchFriend(keyword)  // Memanggil searchFriend dari ViewModel
-            if (results.isEmpty() && keyword.isNotEmpty()) {
-                binding.noDataLayout.visibility = View.VISIBLE  // Tampilkan tampilan "No Data"
-            } else {
-                binding.noDataLayout.visibility = View.GONE
+            viewModel.searchFriend(keyword).collect { results ->
+                if (results.isEmpty() && keyword.isNotEmpty()) {
+                    binding.noDataLayout.visibility = View.VISIBLE
+                } else {
+                    binding.noDataLayout.visibility = View.GONE
+                }
+                adapter.updateData(results)
             }
-            adapter.updateData(results)  // Memperbarui data pada adapter
         }
     }
+
 }

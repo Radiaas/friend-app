@@ -9,13 +9,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+object AppModule {
 
     @Provides
     @Singleton
@@ -24,18 +25,18 @@ object DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideFriendDao(myDatabase: MyDatabase): FriendDao {
         return myDatabase.friendDao()
     }
-}
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
-
-    @Binds
+    @Provides
     @Singleton
-    abstract fun bindFriendRepository(
-        friendRepositoryImpl: FriendRepositoryImpl
-    ): FriendRepository
+    fun provideFriendRepository(
+        friendDao: FriendDao
+    ): FriendRepository {
+        return FriendRepositoryImpl(friendDao)
+    }
 }
+
+

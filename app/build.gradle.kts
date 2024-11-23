@@ -98,6 +98,9 @@ dependencies {
     implementation(platform(libs.firebase.bom.v3311))
     implementation(libs.firebase.crashlytics)
     implementation(libs.google.firebase.analytics)
+
+    implementation (libs.timber)
+
 }
 
 kapt {

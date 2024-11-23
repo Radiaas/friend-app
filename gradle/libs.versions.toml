@@ -28,6 +28,7 @@ roomKtx = "2.6.1"
 sdpAndroid = "1.1.1"
 sspAndroid = "1.1.1"
 databindingRuntime = "8.5.2"
+timber = "5.0.1"
 
 [libraries]
 androidcoreproject = { module = "com.github.crocodic-studio:AndroidCoreProject", version.ref = "androidcoreproject" }
@@ -67,6 +68,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx"
 sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
 ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sspAndroid" }
 androidx-databinding-runtime = { group = "androidx.databinding", name = "databinding-runtime", version.ref = "databindingRuntime" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
